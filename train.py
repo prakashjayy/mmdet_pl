@@ -30,8 +30,10 @@ class MMDET_TRAINER(pl.LightningModule):
 
 
 if __name__ == "__main__":
+    # from dataset import MMDET_LOADER
     cfg = Config.fromfile("configs/faster_rcnn_r50_fpn.py")
     model = MMDET_TRAINER(cfg)
+    # ds = MMDET_LOADER(cfg)
 
 # DETECTORS.module_dict.keys() contains list of
 # print(model)

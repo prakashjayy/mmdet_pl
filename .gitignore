@@ -1,6 +1,5 @@
 ## datafiles 
-data/annotations
-data/val2017
+data/coco
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
