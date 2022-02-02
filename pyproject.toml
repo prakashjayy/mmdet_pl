@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "mmdet_pl"
+version = "0.0.1"
+description = "using pytorch lightning for training object detection models in mmdet."
+authors = ["Prakashjyy <prakashjyy@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+mmcv-full = "^1.4.4"
+torch = "^1.10.1"
+torchvision = "^0.11.2"
+mmdet = "^2.20.0"
+coco-utils = "^0.0.3"
+pytorch-lightning = "^1.5.9"
+
+[tool.poetry.dev-dependencies]
+ipython = "^8.0.1"
+pre-commit = "^2.17.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
