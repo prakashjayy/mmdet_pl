@@ -176,7 +176,7 @@ data = dict(
         type=dataset_type,
         ann_file=data_root + "annotations/instances_val2017.json",
         img_prefix=data_root + "val2017/",
-        pipeline=test_pipeline,
+        pipeline=train_pipeline,
     ),
     test=dict(
         type=dataset_type,
@@ -191,33 +191,32 @@ evaluation = dict(interval=1, metric="bbox")
 optimizer = dict(type="SGD", lr=0.02, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=None)
 # learning policy
+# TODO: include warmup too.
+# lr_config = dict(
+#     policy="epoch",
+#     warmup="linear",
+#     warmup_iters=500,
+#     warmup_ratio=0.001,
+#     step=[16, 22],
+# )
+
 lr_config = dict(
-    policy="step",
-    warmup="linear",
-    warmup_iters=500,
-    warmup_ratio=0.001,
+    policy="epoch",
     step=[16, 22],
 )
 
 max_epochs = 24
 
 # default runtime
-checkpoint_config = dict(interval=1)
-# yapf:disable
-log_config = dict(
-    interval=50,
-    hooks=[
-        dict(type="TextLoggerHook"),
-        # dict(type='TensorboardLoggerHook')
-    ],
-)
-# yapf:enable
-custom_hooks = [dict(type="NumClassCheckHook")]
+# checkpoint_config = dict(interval=1)
+
+# custom_hooks = [dict(type="NumClassCheckHook")]
 
 # by default pl using "nccl" backend. we can also use `gloo`
-dist_params = dict(backend="nccl")
-log_level = "INFO"
+# dist_params = dict(backend="nccl")
+# log_level = "INFO"
 load_from = None
 resume_from = None
-workflow = [("train", 1)]
+# workflow = [("train", 1)]
 gpus = None  # [0, 1]
+exp_name = "faster_tester"

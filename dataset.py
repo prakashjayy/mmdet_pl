@@ -35,7 +35,8 @@ class MMDET_LOADER(pl.LightningDataModule):
             self.train_ds = ConcatDataset([build_dataset(c) for c in cfg])
         else:
             self.train_ds = build_dataset(self.cfg.data.train)
-        self.val_ds = build_dataset(self.cfg.data.val, dict(test_mode=True))
+
+        self.val_ds = build_dataset(self.cfg.data.val)
         # TODO: Add Test dataset too
 
     def train_dataloader(self):
@@ -59,13 +60,19 @@ class MMDET_LOADER(pl.LightningDataModule):
         )
 
     def val_dataloader(self):
-        pass
+        return torch.utils.data.DataLoader(
+            self.val_ds,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            collate_fn=partial(collate, samples_per_gpu=self.batch_size),
+            pin_memory=False,
+        )
 
 
 if __name__ == "__main__":
     cfg = Config.fromfile("configs/faster_rcnn_r50_fpn.py")
     ds = MMDET_LOADER(cfg)
-    for block in ds.train_dataloader():
+    for block in ds.val_dataloader():
         # dict_keys(['img_metas', 'img', 'gt_bboxes', 'gt_labels'])
         img_metas = block["img_metas"].data[0]
         imgs = block["img"].data[0]
